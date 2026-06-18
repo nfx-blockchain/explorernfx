@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Protection - NFXBlockChain Explorer</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="dark-mode">
+  <header class="main-header">
+    <nav class="navbar">
+      <div class="logo">🔷 NFXBlockChain</div>
+      <ul class="nav-menu">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/nft-collections.html" class="nav-link">NFTs</a></li>
+        <li><a href="/tokens.html" class="nav-link">Tokens</a></li>
+        <li><a href="/islands.html" class="nav-link">Ilhas</a></li>
+        <li><a href="/hypernodes.html" class="nav-link">Hypernodes</a></li>
+        <li><a href="/ai.html" class="nav-link active">AI Protection</a></li>
+        <li><a href="/peers.html" class="nav-link">Peers</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-btn" title="Trocar tema">🌙</button>
+        <select id="networkSelector" class="network-select" style="display:none;">
+          <option value="mainnet">MAINNET</option>
+          <option value="testnet">TESTNET</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>🤖 AI Protection</h1>
+    
+    <div class="info-grid">
+      <div class="info-card" id="protection">
+        <h3>🛡️ Protection</h3>
+        <div class="loading">Carregando...</div>
+      </div>
+      <div class="info-card" id="neuralStatus">
+        <h3>🧠 Neural Status</h3>
+        <div class="loading">Carregando...</div>
+      </div>
+    </div>
+    
+    <h3 style="color: #00d4ff; margin: 20px 0;">Agents</h3>
+    <div id="agents">
+      <div class="loading">Carregando...</div>
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div>© 2026 NFXBlockChain Explorer</div>
+      <div id="connectionStats" class="connection-stats">Conexões: --</div>
+    </div>
+  </footer>
+
+  <script>
+    let currentNetwork = localStorage.getItem('nfxNetwork') || 'mainnet';
+    let darkMode = localStorage.getItem('nfxDarkMode') !== 'false';
+    
+    function initTheme() {
+      document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+      document.querySelector('.main-header').className = `main-header ${darkMode ? '' : 'light-mode'}`;
+      document.querySelector('.main-footer').className = `main-footer ${darkMode ? '' : 'light-mode'}`;
+      document.getElementById('themeToggle').textContent = darkMode ? '🌙' : '☀️';
+    }
+    
+    function toggleTheme() {
+      darkMode = !darkMode;
+      localStorage.setItem('nfxDarkMode', darkMode);
+      initTheme();
+    }
+    
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    
+    async function checkNetworks() {
+      try {
+        const res = await fetch('/api/networks');
+        const networks = await res.json();
+        if (networks.length > 1) {
+          document.getElementById('networkSelector').style.display = 'block';
+          document.getElementById('networkSelector').value = currentNetwork;
+        }
+      } catch(e) {}
+    }
+    
+    document.getElementById('networkSelector').addEventListener('change', (e) => {
+      currentNetwork = e.target.value;
+      localStorage.setItem('nfxNetwork', currentNetwork);
+    });
+    
+    async function loadAI() {
+      try {
+        const [data, agents] = await Promise.all([
+          fetch(`/api/ai/${currentNetwork}/protection`).then(r => r.json()),
+          fetch(`/api/ai/${currentNetwork}/agents`).then(r => r.json()).catch(() => null)
+        ]);
+        
+        const protection = data.protection;
+        const neural = data.status;
+        
+        document.getElementById('protection').innerHTML = `
+          <p><span class="label">Mode:</span> <span class="value">${protection?.mode || 'N/A'}</span></p>
+          <p><span class="label">Intelligence:</span> <span class="value">${protection?.intelligence_level || 0}/100</span></p>
+          <p><span class="label">Active Threats:</span> <span class="value">${protection?.active_threats || 0}</span></p>
+          <p><span class="label">Mitigated:</span> <span class="value">${protection?.mitigated_threats || 0}</span></p>
+          <p><span class="label">Protection Score:</span> <span class="value">${protection?.protection_score || 0}/100</span></p>
+        `;
+        
+        document.getElementById('neuralStatus').innerHTML = `
+          <p><span class="label">AI Level:</span> <span class="value">${neural?.ai_level || 0}/100</span></p>
+          <p><span class="label">Confidence:</span> <span class="value">${neural?.confidence || 0}/100</span></p>
+          <p><span class="label">Samples:</span> <span class="value">${neural?.trained_samples || 0}</span></p>
+          <p><span class="label">Blocks Processed:</span> <span class="value">${neural?.blocks_processed || 0}</span></p>
+        `;
+        
+        document.getElementById('agents').innerHTML = agents?.agents?.map(a => `
+          <div class="block-item">
+            <div>
+              <div class="block-height">${a.name}</div>
+              <div class="block-info">Accuracy: ${a.accuracy}% • Weight: ${a.weight}</div>
+            </div>
+            <div style="font-size: 12px; color: #666;">${a.decisions_made} decisions</div>
+          </div>
+        `).join('') || '<p style="color: #888;">Nenhum agente disponível</p>';
+      } catch (err) {
+        document.getElementById('protection').innerHTML = '<div class="error">Erro: ' + err.message + '</div>';
+      }
+    }
+    
+    window.onload = () => { checkNetworks(); loadAI(); initTheme(); };
+  </script>
+</body>
+</html>

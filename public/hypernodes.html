@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hypernodes - NFXBlockChain Explorer</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="dark-mode">
+  <header class="main-header">
+    <nav class="navbar">
+      <div class="logo">🔷 NFXBlockChain</div>
+      <ul class="nav-menu">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/nft-collections.html" class="nav-link">NFTs</a></li>
+        <li><a href="/tokens.html" class="nav-link">Tokens</a></li>
+        <li><a href="/islands.html" class="nav-link">Ilhas</a></li>
+        <li><a href="/hypernodes.html" class="nav-link active">Hypernodes</a></li>
+        <li><a href="/ai.html" class="nav-link">AI Protection</a></li>
+        <li><a href="/peers.html" class="nav-link">Peers</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-btn" title="Trocar tema">🌙</button>
+        <select id="networkSelector" class="network-select" style="display:none;">
+          <option value="mainnet">MAINNET</option>
+          <option value="testnet">TESTNET</option>
+        </select>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>🔗 Hypernodes</h1>
+    
+    <div class="info-grid">
+      <div class="info-card" id="stats">
+        <h3>📊 Estatísticas</h3>
+        <div class="loading">Carregando...</div>
+      </div>
+    </div>
+    
+    <h3 style="color: #00d4ff; margin: 20px 0;">Lista de Hypernodes</h3>
+    <div id="nodes">
+      <div class="loading">Carregando...</div>
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div>© 2026 NFXBlockChain Explorer</div>
+      <div id="connectionStats" class="connection-stats">Conexões: --</div>
+    </div>
+  </footer>
+
+  <script>
+    let currentNetwork = localStorage.getItem('nfxNetwork') || 'mainnet';
+    let darkMode = localStorage.getItem('nfxDarkMode') !== 'false';
+    
+    function initTheme() {
+      document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+      document.querySelector('.main-header').className = `main-header ${darkMode ? '' : 'light-mode'}`;
+      document.querySelector('.main-footer').className = `main-footer ${darkMode ? '' : 'light-mode'}`;
+      document.getElementById('themeToggle').textContent = darkMode ? '🌙' : '☀️';
+    }
+    
+    function toggleTheme() {
+      darkMode = !darkMode;
+      localStorage.setItem('nfxDarkMode', darkMode);
+      initTheme();
+    }
+    
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    
+    async function checkNetworks() {
+      try {
+        const res = await fetch('/api/networks');
+        const networks = await res.json();
+        if (networks.length > 1) {
+          document.getElementById('networkSelector').style.display = 'block';
+          document.getElementById('networkSelector').value = currentNetwork;
+        }
+      } catch(e) {}
+    }
+    
+    document.getElementById('networkSelector').addEventListener('change', (e) => {
+      currentNetwork = e.target.value;
+      localStorage.setItem('nfxNetwork', currentNetwork);
+    });
+    
+    async function loadNodes() {
+      try {
+        const [stats, nodes] = await Promise.all([
+          fetch(`/api/hypernodes/${currentNetwork}/stats`).then(r => r.json()),
+          fetch(`/api/hypernodes/${currentNetwork}`).then(r => r.json())
+        ]);
+        
+        document.getElementById('stats').innerHTML = `
+          <p><span class="label">Total:</span> <span class="value">${stats?.total_hypernodes || 0}</span></p>
+          <p><span class="label">Ativos:</span> <span class="value">${stats?.active_hypernodes || 0}</span></p>
+        `;
+        
+        document.getElementById('nodes').innerHTML = nodes?.map(n => `
+          <div class="block-item">
+            <div>
+              <div class="block-height">${n.service || n}</div>
+              <div class="block-info">State: ${n.state} • Last Ping: ${n.last_ping || 'N/A'}</div>
+            </div>
+          </div>
+        `).join('') || '<p style="color: #888;">Nenhum hypernode registrado</p>';
+      } catch (err) {
+        document.getElementById('stats').innerHTML = '<div class="error">Erro: ' + err.message + '</div>';
+      }
+    }
+    
+    window.onload = () => { checkNetworks(); loadNodes(); initTheme(); };
+  </script>
+</body>
+</html>
