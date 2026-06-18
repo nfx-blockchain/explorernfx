@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,13 +14,13 @@
         <li><a href="/" class="nav-link">Home</a></li>
         <li><a href="/nft-collections.html" class="nav-link">NFTs</a></li>
         <li><a href="/tokens.html" class="nav-link active">Tokens</a></li>
-        <li><a href="/islands.html" class="nav-link">Ilhas</a></li>
+        <li><a href="/islands.html" class="nav-link">Islands</a></li>
         <li><a href="/hypernodes.html" class="nav-link">Hypernodes</a></li>
         <li><a href="/ai.html" class="nav-link">AI Protection</a></li>
         <li><a href="/peers.html" class="nav-link">Peers</a></li>
       </ul>
       <div class="nav-actions">
-        <button id="themeToggle" class="theme-btn" title="Trocar tema">🌙</button>
+        <button id="themeToggle" class="theme-btn" title="Toggle theme">🌙</button>
         <select id="networkSelector" class="network-select" style="display:none;">
           <option value="mainnet">MAINNET</option>
           <option value="testnet">TESTNET</option>
@@ -33,14 +33,14 @@
     <h1>🪙 Tokens</h1>
     
     <div class="search-box">
-      <input type="text" id="contractInput" placeholder="Contract ID do token...">
-      <button onclick="search()">Buscar</button>
+      <input type="text" id="contractInput" placeholder="Contract ID...">
+      <button onclick="search()">Search</button>
     </div>
     
     <div class="info-grid">
       <div class="info-card" id="tokenInfo">
         <h3>ℹ️ Token Info</h3>
-        <div class="loading">Digite um contract ID acima</div>
+        <div class="loading">Enter a contract ID</div>
       </div>
     </div>
   </main>
@@ -48,7 +48,7 @@
   <footer class="main-footer">
     <div class="footer-content">
       <div>© 2026 NFXBlockChain Explorer</div>
-      <div id="connectionStats" class="connection-stats">Conexões: --</div>
+      <div id="connectionStats" class="connection-stats">Connections: --</div>
     </div>
   </footer>
 
@@ -97,13 +97,13 @@
         
         document.getElementById('tokenInfo').innerHTML = `
           <p><span class="label">Contract:</span> <span class="value">${contract}</span></p>
-          <p><span class="label">Nome:</span> <span class="value">${data.info?.name || 'N/A'}</span></p>
-          <p><span class="label">Símbolo:</span> <span class="value">${data.info?.symbol || 'N/A'}</span></p>
-          <p><span class="label">Decimais:</span> <span class="value">${data.info?.decimals || 8}</span></p>
-          <p><span class="label">Supply Total:</span> <span class="value">${data.info?.total_supply || 0}</span></p>
+          <p><span class="label">Name:</span> <span class="value">${data.info?.name || 'N/A'}</span></p>
+          <p><span class="label">Symbol:</span> <span class="value">${data.info?.symbol || 'N/A'}</span></p>
+          <p><span class="label">Decimals:</span> <span class="value">${data.info?.decimals || 8}</span></p>
+          <p><span class="label">Total Supply:</span> <span class="value">${data.info?.total_supply || 0}</span></p>
         `;
       } catch (err) {
-        document.getElementById('tokenInfo').innerHTML = '<div class="error">Erro: ' + err.message + '</div>';
+        document.getElementById('tokenInfo').innerHTML = '<div class="error">Error: ' + err.message + '</div>';
       }
     }
     

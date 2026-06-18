@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bloco - NFXBlockChain Explorer</title>
+  <title>Block - NFXBlockChain Explorer</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body class="dark-mode">
@@ -14,13 +14,13 @@
         <li><a href="/" class="nav-link">Home</a></li>
         <li><a href="/nft-collections.html" class="nav-link">NFTs</a></li>
         <li><a href="/tokens.html" class="nav-link">Tokens</a></li>
-        <li><a href="/islands.html" class="nav-link">Ilhas</a></li>
+        <li><a href="/islands.html" class="nav-link">Islands</a></li>
         <li><a href="/hypernodes.html" class="nav-link">Hypernodes</a></li>
         <li><a href="/ai.html" class="nav-link">AI Protection</a></li>
         <li><a href="/peers.html" class="nav-link">Peers</a></li>
       </ul>
       <div class="nav-actions">
-        <button id="themeToggle" class="theme-btn" title="Trocar tema">🌙</button>
+        <button id="themeToggle" class="theme-btn" title="Toggle theme">🌙</button>
         <select id="networkSelector" class="network-select" style="display:none;">
           <option value="mainnet">MAINNET</option>
           <option value="testnet">TESTNET</option>
@@ -30,13 +30,13 @@
   </header>
 
   <main class="container">
-    <div id="content"><div class="loading">Carregando bloco...</div></div>
+    <div id="content"><div class="loading">Loading...</div></div>
   </main>
 
   <footer class="main-footer">
     <div class="footer-content">
       <div>© 2026 NFXBlockChain Explorer</div>
-      <div id="connectionStats" class="connection-stats">Conexões: --</div>
+      <div id="connectionStats" class="connection-stats">Connections: --</div>
     </div>
   </footer>
 
@@ -81,24 +81,24 @@
         .then(r => r.json())
         .then(renderBlock)
         .catch(err => {
-          document.getElementById('content').innerHTML = '<div class="error">Erro: ' + err.message + '</div>';
+          document.getElementById('content').innerHTML = '<div class="error">Error: ' + err.message + '</div>';
         });
     }
     
     function renderBlock(block) {
       document.getElementById('content').innerHTML = `
-        <h2 style="color: #00d4ff; margin: 20px 0;">Bloco #${block.height || 'Desconhecido'}</h2>
+        <h2 style="color: #00d4ff; margin: 20px 0;">Block #${block.height || 'Unknown'}</h2>
         <div class="block-details">
           <p><strong>Hash:</strong> <span style="color: #fff;">${block.hash}</span></p>
-          <p><strong>Anterior:</strong> <span style="color: #fff;">${block.previousblockhash || 'Genesis'}</span></p>
+          <p><strong>Previous:</strong> <span style="color: #fff;">${block.previousblockhash || 'Genesis'}</span></p>
           <p><strong>Merkle:</strong> <span style="color: #fff;">${block.merkleroot}</span></p>
-          <p><strong>Tempo:</strong> <span style="color: #fff;">${new Date((block.time || 0) * 1000).toLocaleString()}</span></p>
+          <p><strong>Time:</strong> <span style="color: #fff;">${new Date((block.time || 0) * 1000).toLocaleString()}</span></p>
           <p><strong>Bits:</strong> <span style="color: #fff;">${block.bits || 'N/A'}</span></p>
           <p><strong>Nonce:</strong> <span style="color: #fff;">${block.nonce || 'N/A'}</span></p>
-          <p><strong>Tamanho:</strong> <span style="color: #fff;">${block.size || 0} bytes</span></p>
-          <p><strong>Transações:</strong> <span style="color: #fff;">${block.tx ? block.tx.length : 0}</span></p>
+          <p><strong>Size:</strong> <span style="color: #fff;">${block.size || 0} bytes</span></p>
+          <p><strong>Transactions:</strong> <span style="color: #fff;">${block.tx ? block.tx.length : 0}</span></p>
           <details style="margin-top: 20px;">
-            <summary style="color: #00d4ff; cursor: pointer;">Ver transações (${block.tx ? block.tx.length : 0})</summary>
+            <summary style="color: #00d4ff; cursor: pointer;">View transactions (${block.tx ? block.tx.length : 0})</summary>
             ${block.tx ? block.tx.map((t, i) => `<div style="padding: 10px; border-bottom: 1px solid #333;"><a href="/tx.html?network=${currentNetwork}&txid=${t}" style="color: #00d4ff;">${i+1}. ${t.slice(0, 20)}...</a></div>`).join('') : ''}
           </details>
         </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,13 +14,13 @@
         <li><a href="/" class="nav-link">Home</a></li>
         <li><a href="/nft-collections.html" class="nav-link">NFTs</a></li>
         <li><a href="/tokens.html" class="nav-link">Tokens</a></li>
-        <li><a href="/islands.html" class="nav-link">Ilhas</a></li>
+        <li><a href="/islands.html" class="nav-link">Islands</a></li>
         <li><a href="/hypernodes.html" class="nav-link">Hypernodes</a></li>
         <li><a href="/ai.html" class="nav-link active">AI Protection</a></li>
         <li><a href="/peers.html" class="nav-link">Peers</a></li>
       </ul>
       <div class="nav-actions">
-        <button id="themeToggle" class="theme-btn" title="Trocar tema">🌙</button>
+        <button id="themeToggle" class="theme-btn" title="Toggle theme">🌙</button>
         <select id="networkSelector" class="network-select" style="display:none;">
           <option value="mainnet">MAINNET</option>
           <option value="testnet">TESTNET</option>
@@ -35,24 +35,24 @@
     <div class="info-grid">
       <div class="info-card" id="protection">
         <h3>🛡️ Protection</h3>
-        <div class="loading">Carregando...</div>
+        <div class="loading">Loading...</div>
       </div>
       <div class="info-card" id="neuralStatus">
         <h3>🧠 Neural Status</h3>
-        <div class="loading">Carregando...</div>
+        <div class="loading">Loading...</div>
       </div>
     </div>
     
     <h3 style="color: #00d4ff; margin: 20px 0;">Agents</h3>
     <div id="agents">
-      <div class="loading">Carregando...</div>
+      <div class="loading">Loading...</div>
     </div>
   </main>
 
   <footer class="main-footer">
     <div class="footer-content">
       <div>© 2026 NFXBlockChain Explorer</div>
-      <div id="connectionStats" class="connection-stats">Conexões: --</div>
+      <div id="connectionStats" class="connection-stats">Connections: --</div>
     </div>
   </footer>
 
@@ -124,9 +124,9 @@
             </div>
             <div style="font-size: 12px; color: #666;">${a.decisions_made} decisions</div>
           </div>
-        `).join('') || '<p style="color: #888;">Nenhum agente disponível</p>';
+        `).join('') || '<p style="color: #888;">No agents available</p>';
       } catch (err) {
-        document.getElementById('protection').innerHTML = '<div class="error">Erro: ' + err.message + '</div>';
+        document.getElementById('protection').innerHTML = '<div class="error">Error: ' + err.message + '</div>';
       }
     }
     
