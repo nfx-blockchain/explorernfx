@@ -36,6 +36,19 @@
       <div class="loading">Loading...</div>
     </div>
     
+    <div class="info-card">
+      <h3>🗺️ Island Map</h3>
+      <div id="islandMap" style="text-align: center; padding: 10px;">
+        <svg id="islandCanvas" viewBox="0 0 400 400" style="width: 100%; max-width: 500px; height: auto; border: 2px solid #00d4ff; border-radius: 8px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);"></svg>
+        <div style="margin-top: 10px; font-size: 12px; color: #888;">
+          <span style="margin-right: 15px;"><span style="display: inline-block; width: 12px; height: 12px; background: #2d5a27; border: 1px solid #00d4ff;"></span> Land</span>
+          <span style="margin-right: 15px;"><span style="display: inline-block; width: 12px; height: 12px; background: #1a3a8f; border: 1px solid #00d4ff;"></span> Water</span>
+          <span style="margin-right: 15px;"><span style="display: inline-block; width: 12px; height: 12px; background: #8b4513; border: 1px solid #00d4ff;"></span> Building</span>
+          <span><span style="display: inline-block; width: 12px; height: 12px; background: #f9c74f; border: 1px solid #00d4ff;"></span> Rental</span>
+        </div>
+      </div>
+    </div>
+    
     <div class="info-card" id="islandHealth">
       <h3>🏥 Health Analysis</h3>
       <div class="loading">Loading...</div>
@@ -85,20 +98,53 @@
       localStorage.setItem('nfxNetwork', currentNetwork);
     });
     
+    function renderIslandMap(width, height, buildings, rentals) {
+      const svg = document.getElementById('islandCanvas');
+      const cellSize = Math.min(400 / Math.max(width, height), 40);
+      const padding = 20;
+      
+      let html = `<rect width="100%" height="100%" fill="none"/>`;
+      
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const cx = padding + x * cellSize + cellSize / 2;
+          const cy = padding + y * cellSize + cellSize / 2;
+          const index = y * width + x;
+          const isWater = Math.random() > 0.7;
+          const hasBuilding = index < (buildings || 0) * 4;
+          const isRental = index < (rentals || 0) * 2;
+          
+          let color = '#2d5a27';
+          if (isWater) color = '#1a3a8f';
+          else if (hasBuilding) color = '#8b4513';
+          else if (isRental) color = '#f9c74f';
+          
+          html += `<rect x="${padding + x * cellSize}" y="${padding + y * cellSize}" 
+                    width="${cellSize - 2}" height="${cellSize - 2}" 
+                    fill="${color}" rx="2"/>`;
+        }
+      }
+      
+      svg.innerHTML = html;
+      svg.setAttribute('viewBox', `0 0 ${Math.max(width, 8) * cellSize + 2 * padding} ${Math.max(height, 8) * cellSize + 2 * padding}`);
+    }
+    
     async function loadIsland() {
       try {
         const res = await fetch(`/api/island/${currentNetwork}/${id}`);
         const data = await res.json();
+        const info = data.info || {};
         
         document.getElementById('islandInfo').innerHTML = `
           <p><span class="label">ID:</span> <span class="value">${id}</span></p>
-          <p><span class="label">Width:</span> <span class="value">${data.info?.width || 0}</span></p>
-          <p><span class="label">Height:</span> <span class="value">${data.info?.height || 0}</span></p>
-          <p><span class="label">Score:</span> <span class="value">${data.info?.score || 0}</span></p>
-          <p><span class="label">Total Rentals:</span> <span class="value">${data.info?.total_rentals || 0}</span></p>
-          <p><span class="label">Total Subdivisions:</span> <span class="value">${data.info?.total_subdivisions || 0}</span></p>
-          <p><span class="label">Total Buildings:</span> <span class="value">${data.info?.total_buildings || 0}</span></p>
+          <p><span class="label">Width:</span> <span class="value">${info.width || 0}</span></p>
+          <p><span class="label">Height:</span> <span class="value">${info.height || 0}</span></p>
+          <p><span class="label">Score:</span> <span class="value">${info.score || 0}</span></p>
+          <p><span class="label">Buildings:</span> <span class="value">${info.total_buildings || 0}</span></p>
+          <p><span class="label">Rentals:</span> <span class="value">${info.total_rentals || 0}</span></p>
         `;
+        
+        renderIslandMap(info.width || 8, info.height || 8, info.total_buildings, info.total_rentals);
         
         document.getElementById('islandHealth').innerHTML = `
           <p><span class="label">Health Score:</span> <span class="value">${data.health?.health_score || 0}</span></p>
