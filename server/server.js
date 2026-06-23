@@ -7,6 +7,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/dist'));
+  app.get('*', (req, res) => {
+    res.sendFile('index.html', { root: 'client/dist' });
+  });
+}
+
 function createRPCClient(config) {
   return new Client({
     network: config.network,
@@ -106,7 +113,7 @@ app.get('/api/blocks/:network/:limit?', async (req, res) => {
 app.get('/api/block/:network/:hash', async (req, res) => {
   try {
     const { network, hash } = req.params;
-const block = await callRPC(network, 'getBlock', hash, true);
+    const block = await callRPC(network, 'getBlock', hash, true);
     res.json(block);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -293,7 +300,7 @@ app.get('/api/hypernodes/:network/stats', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5220;
 app.listen(PORT, () => {
   console.log(`NFXBlockChain Explorer API running on port ${PORT}`);
   console.log(`Networks available: ${Object.keys(networks).join(', ')}`);
