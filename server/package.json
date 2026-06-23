@@ -9,10 +9,11 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.18.0",
     "bitcoin-core": "^4.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "nfx-explorer": "file:.."
   },
   "devDependencies": {
     "nodemon": "^3.0.0"

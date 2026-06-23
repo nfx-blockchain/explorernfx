@@ -44,8 +44,8 @@ export default function Home() {
 
   const { data: homeData, loading, error } = useApi(
     () => ({
-      blocks: loadRealBlocks(10),
-      txs: loadRealTxs(8),
+      blocks: loadRealBlocks(10).catch(() => []),
+      txs: loadRealTxs(8).catch(() => []),
     }),
     [tick, currentNetwork]
   );

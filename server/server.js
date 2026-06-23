@@ -45,7 +45,7 @@ if (!Object.keys(networks).length) {
   networks.mainnet = createRPCClient({
     network: 'mainnet',
     host: process.env.RPC_HOST || '127.0.0.1',
-    port: parseInt(process.env.RPC_PORT) || 8332,
+    port: parseInt(process.env.RPC_PORT) || 27444,
     username: process.env.RPC_USER,
     password: process.env.RPC_PASS,
     timeout: parseInt(process.env.RPC_TIMEOUT) || 30000
@@ -87,8 +87,12 @@ app.get('/api/blocks/:network/:limit?', async (req, res) => {
   try {
     const network = req.params.network;
     const count = parseInt(req.params.limit) || 50;
-    const blockCount = await callRPC(network, 'getBlockCount');
+    const blockCount = await callRPC(network, 'getBlockCount').catch(() => 0);
     const blocks = [];
+    
+    if (!blockCount || blockCount <= 0) {
+      return res.json(blocks);
+    }
     
     const startHeight = Math.max(0, blockCount - count + 1);
     
@@ -103,10 +107,10 @@ app.get('/api/blocks/:network/:limit?', async (req, res) => {
         size: block.size,
         difficulty: block.difficulty
       });
-    }
-    res.json(blocks);
+}
+     res.json(blocks);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json([]);
   }
 });
 
