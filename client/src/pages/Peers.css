@@ -1,0 +1,108 @@
+.peers-page {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.peers-table {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  transition: border-color var(--transition-fast);
+}
+
+.peers-table:hover {
+  border-color: var(--border-accent);
+}
+
+.peers-table-header {
+  display: grid;
+  grid-template-columns: 1fr 130px 1fr 80px 120px 120px;
+  gap: 0;
+  padding: 12px 22px;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  min-width: 800px;
+}
+
+.peers-table-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.peer-row {
+  display: grid;
+  grid-template-columns: 1fr 130px 1fr 80px 120px 120px;
+  gap: 0;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  transition: background var(--transition-fast);
+  position: relative;
+  min-width: 800px;
+}
+
+.peer-row:last-child {
+  border-bottom: none;
+}
+
+.peer-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent-gradient);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.peer-row:hover {
+  background: var(--bg-card-hover);
+}
+
+.peer-row:hover::before {
+  opacity: 1;
+}
+
+.peer-row-addr {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.peer-row-version {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.peer-row-services {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.peer-row-ping {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.peer-row-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: right;
+}

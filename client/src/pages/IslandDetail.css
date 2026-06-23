@@ -1,0 +1,49 @@
+.island-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.island-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.island-status-badge.active {
+  background: var(--success-glow);
+  color: var(--success);
+}
+
+.island-status-badge.inactive {
+  background: var(--danger-glow);
+  color: var(--danger);
+}
+
+.island-status-badge .island-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.island-status-badge.active .island-status-dot {
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success-glow);
+}
+
+.island-status-badge.inactive .island-status-dot {
+  background: var(--danger);
+  box-shadow: 0 0 8px var(--danger-glow);
+}
+
+@media (max-width: 768px) {
+  .island-detail-grid { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .island-status-badge { margin-left: 0; }
+}

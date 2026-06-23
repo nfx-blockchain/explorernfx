@@ -1,0 +1,248 @@
+.addr-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.addr-status-badge.valid {
+  background: var(--success-glow);
+  color: var(--success);
+}
+
+.addr-status-badge.invalid {
+  background: var(--danger-glow);
+  color: var(--danger);
+}
+
+.addr-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.addr-status-badge.valid .addr-status-dot {
+  background: var(--success);
+  box-shadow: 0 0 8px var(--success-glow);
+}
+
+.addr-status-badge.invalid .addr-status-dot {
+  background: var(--danger);
+  box-shadow: 0 0 8px var(--danger-glow);
+}
+
+.address-balance-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition-normal);
+}
+
+.address-balance-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-gradient);
+}
+
+.address-balance-card:hover {
+  border-color: var(--border-accent);
+}
+
+.address-balance-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.address-balance-value {
+  font-size: 36px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--accent-primary);
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.address-balance-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.abs-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 24px;
+}
+
+.abs-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.abs-value {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+}
+
+.abs-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-color);
+}
+
+.token-balances {
+  padding: 8px 22px;
+}
+
+.token-balance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.token-balance-item:last-child {
+  border-bottom: none;
+}
+
+.tbi-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tbi-symbol {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-primary);
+  background: var(--bg-tertiary);
+  padding: 2px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.tbi-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.tbi-balance {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.addr-tx-list {
+  padding: 8px 22px;
+}
+
+.addr-tx-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.addr-tx-item:last-child {
+  border-bottom: none;
+}
+
+.addr-tx-item:hover {
+  padding-left: 4px;
+}
+
+.addr-tx-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.addr-tx-direction {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.addr-tx-direction.in {
+  background: var(--success-glow);
+  color: var(--success);
+}
+
+.addr-tx-direction.out {
+  background: var(--danger-glow);
+  color: var(--danger);
+}
+
+.addr-tx-hash {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.addr-tx-value {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.addr-tx-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+  width: 80px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .page-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .addr-status-badge { margin-left: 0; }
+  .address-balance-value { font-size: 28px; }
+  .abs-item { padding: 0 12px; }
+  .addr-tx-time { display: none; }
+}

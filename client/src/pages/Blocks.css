@@ -1,0 +1,23 @@
+.blocks-page {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.blocks-page .data-table-header {
+  grid-template-columns: 100px 1fr 70px 90px 120px;
+}
+
+.blocks-page .data-row {
+  grid-template-columns: 100px 1fr 70px 90px 120px;
+}
+
+@media (max-width: 768px) {
+  .blocks-page .data-table-header,
+  .blocks-page .data-row {
+    grid-template-columns: 70px 1fr 50px;
+    font-size: 11px;
+  }
+  .blocks-page .data-row-size,
+  .blocks-page .data-table-header span:nth-child(4) { display: none; }
+  .blocks-page .data-row-time,
+  .blocks-page .data-table-header span:nth-child(5) { display: none; }
+}
