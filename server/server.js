@@ -21,7 +21,7 @@ function createRPCClient(config) {
     port: config.port,
     username: config.username,
     password: config.password,
-    timeout: config.timeout || 30000
+    timeout: config.timeout || 30005
   });
 }
 
