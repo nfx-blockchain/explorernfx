@@ -109,8 +109,8 @@ export default function Home() {
     return 'status-failed';
   };
 
-  const blocks = homeData?.blocks || [];
-  const txs = homeData?.txs || [];
+  const blocks = Array.isArray(homeData?.blocks) ? homeData.blocks : [];
+  const txs = Array.isArray(homeData?.txs) ? homeData.txs : [];
 
   const tickerItems = [
     ...blocks.slice(0, 5).map(b => ({ key: b.hash, type: 'block', tag: 'Block', value: `#${formatNumber(b.height)}`, time: formatDate(b.time), onClick: () => navigate(`/block/${b.hash}`) })),
