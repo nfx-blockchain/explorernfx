@@ -233,19 +233,9 @@
    ═══════════════════════════════════════════ */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   margin-bottom: 32px;
-}
-
-/* Bento layout: first card spans 2 cols, others 1 col each */
-.stat-card:first-child {
-  grid-column: span 2;
-}
-
-.stat-card:nth-child(4) {
-  grid-column: span 2;
 }
 
 .stat-card {
@@ -957,8 +947,6 @@
    ═══════════════════════════════════════════ */
 @media (max-width: 1200px) {
   .stats-grid { grid-template-columns: repeat(3, 1fr); }
-  .stat-card:first-child,
-  .stat-card:nth-child(4) { grid-column: span 1; }
   .data-table-header,
   .data-row {
     grid-template-columns: 80px 1fr 60px 80px 100px;
@@ -971,8 +959,6 @@
 
 @media (max-width: 900px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .stat-card:first-child,
-  .stat-card:nth-child(4) { grid-column: span 1; }
   .dashboard-grid { grid-template-columns: 1fr; }
   .network-footer-info { gap: 8px; }
   .nfi-item { padding: 4px 12px; }

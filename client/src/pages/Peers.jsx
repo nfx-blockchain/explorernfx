@@ -6,7 +6,7 @@ import { usePageTitle } from '../hooks/usePageTitle';
 import useApi from '../hooks/useApi';
 import { LoadingState, ErrorState } from '../components/States';
 import Pagination from '../components/Pagination';
-import { formatDate } from '../utils/demoData';
+import { formatNumber, formatDate } from '../utils/demoData';
 import './Peers.css';
 
 const PAGE_SIZE = 6;
@@ -34,6 +34,9 @@ export default function Peers() {
       <div className="peers-table">
         <div className="peers-table-header">
           <span><FontAwesomeIcon icon="network-wired" size="xs" /> Address</span>
+          <span>IP</span>
+          <span>Port</span>
+          <span>Height</span>
           <span>Version</span>
           <span>Services</span>
           <span>Ping</span>
@@ -44,6 +47,9 @@ export default function Peers() {
           {paginated.map((peer) => (
             <div key={peer.address} className="peer-row">
               <span className="peer-row-addr"><FontAwesomeIcon icon="plug" size="xs" /> {peer.address}</span>
+              <span className="peer-row-ip">{peer.ip}</span>
+              <span className="peer-row-port">{peer.port}</span>
+              <span className="peer-row-height">{typeof peer.height === 'number' ? formatNumber(peer.height) : peer.height}</span>
               <span className="peer-row-version">{peer.subver}</span>
               <span className="peer-row-services">{peer.services}</span>
               <span className="peer-row-ping" style={{ color: peer.pingtime < 50 ? 'var(--success)' : peer.pingtime < 100 ? 'var(--warning)' : 'var(--danger)' }}>

@@ -160,7 +160,16 @@ app.get('/api/peers/:network', async (req, res) => {
   try {
     const { network } = req.params;
     const peers = await callRPC(network, 'getPeerInfo');
-    res.json(peers);
+    const enriched = (Array.isArray(peers) ? peers : []).map(peer => {
+      const [ip, port] = (peer.address || '').split(':');
+      return {
+        ...peer,
+        ip: ip || peer.address,
+        port: port || 'N/A',
+        height: peer.startingheight || peer.height || peer.synced_blocks || 'N/A'
+      };
+    });
+    res.json(enriched);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
